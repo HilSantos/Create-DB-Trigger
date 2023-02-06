@@ -20,30 +20,42 @@ insert into Disciplinas(materia) values(001, Biotecnologia), (002, Meio Ambiente
 
 CREATE TABLE Vendas(
 
-	Venda INT,
+Venda INT,
   
-	Produto VARCHAR(20),
+Produto VARCHAR(20),
   
-	Quantidade INT
+Quantidade INT
   
 );
 
 DELIMITER $
+
 CREATE TRIGGER Tgr_Vendas_Insert AFTER INSERT
+
 ON Vendas
+
 FOR EACH ROW
+
 BEGIN
-	UPDATE Disciplinas SET Portfolio = Portfolio - NEW.Quantidade
+
+UPDATE Disciplinas SET Portfolio = Portfolio - NEW.Quantidade
+
 WHERE Referencia = NEW.Curso;
 END$
 
 CREATE TRIGGER Tgr_Vendas_Delete AFTER DELETE
+
 ON Vendas
+
 FOR EACH ROW
+
 BEGIN
-	UPDATE Disciplinas SET Portfolio = Portfolio + OLD.Quantidade
+
+UPDATE Disciplinas SET Portfolio = Portfolio + OLD.Quantidade
+
 WHERE Referencia = OLD.Curso;
 END$
+
 DELIMITER ;
 
 insert into Venda VALUES (1,'001', 8);
